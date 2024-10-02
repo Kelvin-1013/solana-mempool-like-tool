@@ -1,24 +1,21 @@
-use crate::grpc_client::GeyserClient;
-use solana_grpc::SubscribeUpdate;
+// src/transaction_handler.rs
+
+use yellowstone_grpc_proto::prelude::{SubscribeUpdateTransaction, TransactionStatus}; // Adjust imports as necessary
 use log::{info, error};
 
-pub async fn subscribe_to_transactions(client: &mut GeyserClient<Channel>) -> Result<(), Box<dyn std::error::Error>> {
-    let mut stream = client.subscribe_updates().await?.into_inner();
-
-    while let Some(update) = stream.message().await? {
-        handle_transaction_update(update);
+pub async fn handle_transaction_update(update: SubscribeUpdateTransaction) {
+    // Check if the transaction is pending
+    if is_transaction_pending(&update) {
+        info!("Pending transaction detected: {:?}", update);
+    } else {
+        info!("Transaction status: {:?}", update.status);
     }
-
-    Ok(())
 }
 
-pub fn handle_transaction_update(update: SubscribeUpdate) {
-    // Process the update
-    info!("Received transaction update: {:?}", update);
-
-    // Here you can filter for pending and unprocessed transactions
-    // For example:
-    // if is_pending(&update) {
-    //     info!("Pending transaction detected: {:?}", update);
-    // }
+fn is_transaction_pending(update: &SubscribeUpdateTransaction) -> bool {
+    // Check the transaction status
+    match update.status {
+        TransactionStatus::Pending => true,
+        _ => false,
+    }
 }
