@@ -27,7 +27,8 @@ A Rust application that finds pending and unprocessed transactions from a Solana
 2. **Build the project**:
 
     ````bash
-    cargo build
+        rustup install nightly
+        cargo build
     ````
 
 3. **Run the application**:
