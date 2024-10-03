@@ -1,0 +1,22 @@
+[package]
+name = "solana_pending_transaction_finder"
+version = "0.1.0"
+edition = "2024"
+
+# Optional: Description of your project
+description = "A Rust application to find pending and unprocessed transactions using Yellowstone gRPC and Jito relayer."
+license = "MIT"
+authors = ["benjamintan1013@gmail.com"]
+
+[dependencies]
+# gRPC dependencies
+tonic = "0.6"                # gRPC framework
+tokio = { version = "1", features = ["full"] } # Asynchronous runtime
+
+# Additional dependencies
+log = "0.4"                  # Logging library
+env_logger = "0.10"          # Logger for environment-based configuration
+serde = { version = "1.0", features = ["derive"] } # Serialization framework
+serde_json = "1.0"           # JSON serialization support
+
+# Optional: Add any other dependencies you may require
